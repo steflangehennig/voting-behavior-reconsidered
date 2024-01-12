@@ -41,8 +41,7 @@ results <- data.frame(year = numeric(),
 s <- w <- l <- data.frame()
 
 ### New Models with Ideology - Not Asked prior to 1972 
-years <- c(1972,	1976,	1980,	1984,	
-           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) # Years to include in analysis 
+years <- c(1972,	1976,	1980,	1984, 1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) 
 
 # Iterate over each year
 for (year in years) {
