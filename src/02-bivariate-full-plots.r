@@ -24,4 +24,4 @@ p2 <- ggplot() +
                         values = c('pres_no_control' = 'solid', 'pres_control' = 'dashed')) +
   theme_light()
 
-p2 +  scale_y_continuous(breaks = seq(0, 2, 0.1)) + removeGrid(y=FALSE) 
+p2 +  scale_y_continuous(breaks = seq(0, 2, 0.1)) + removeGrid(y=FALSE) + expand_limits(y = 0)
