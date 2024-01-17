@@ -12,7 +12,7 @@ library(openxlsx)
 library(patchwork)
 
 
-# Reshape the data for Plotting 
+# Reshape the data for Plotting: these data come from the 'full results' in file 01-pred-prob-full-model
 results_long <- results %>%
   gather(key = "variable", value = "value", -year) 
 
