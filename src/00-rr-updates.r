@@ -307,14 +307,14 @@ anes <- anes %>%
     (VCF0106==2 | VCF0106==3) ~ 0
   ))
 
-#Recodes gender into dummy female or not 
+# recodes gender into dummy female or not 
 anes <- anes %>% 
   mutate(female = case_when(
     VCF0104==1 ~ 0,
     VCF0104==2 ~ 1
   ))
 
-#Creates South region  dummy variable
+# creates South region  dummy var
 anes <- anes %>% 
   mutate(south = case_when(
     VCF0112==1 ~ 0,
@@ -323,14 +323,14 @@ anes <- anes %>%
     VCF0112==3 ~ 1
   ))
 
-####Regression For-Loop Starts Here 
-# Initialize a data frame to store results
+## regression for-loop starts here 
+# initialize a data frame to store results
 results <- data.frame()
 
-# Initialize a data frame to store model evaluation metrics
+# initialize a data frame to store model evaluation metrics
 model_metrics <- data.frame()
 
-# Create an empty data frame to store probit model results
+# create an empty data frame to store probit model results
 results <- data.frame(year = numeric(),
                       coeff_intercept = numeric(),
                       coeff_strong = numeric(),
@@ -359,31 +359,31 @@ results <- data.frame(year = numeric(),
                       n = numeric(),
                       stringsAsFactors = FALSE)
 
-# Create empty data frames to store predicted probabilities
+# create empty data frames to store predicted probabilities
 s <- w <- l <- data.frame()
 
-### New Models with Ideology - Not Asked prior to 1972 
+## new models with ideology - not asked prior to 1972 
 years <- c(1972,	1976,	1980,	1984,	
-           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) # Years to include in analysis 
+           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) # years to include in analysis 
 
-# Iterate over each year
+# iterate over each year
 for (year in years) {
-  # Subset the data for the specific year
+  # subset the data for the specific year
   year_data <- subset(anes, VCF0004 == year)
   
-  # Run the weighted probit regression
+  # run the weighted probit regression
   model <- svyglm(rep_dem_pres ~ strong + weak + lean + age + education +
                     south + white + female + ideo4,
                   design = svydesign(ids = ~1, weights = ~VCF0009z, 
                                      data = year_data), 
                   family = binomial(link = "probit"))
   
-  # Extract the coefficients and standard errors
+  # extract the coefficients and standard errors
   coef_values <- coef(model)
   std_err <- sqrt(diag(vcov(model)))
   obs <- as.numeric(length(model$fitted.values))
   
-  # Create a new row for the coefficients data frame
+  # create a new row for the coefficients data frame
   new_row <- data.frame(
     year = year,
     intercept = coef_values[1],
@@ -414,16 +414,16 @@ for (year in years) {
     stringsAsFactors = FALSE
   )
   
-  # Append the row to the coefficients data frame
+  # append the row to the coefficients data frame
   results <- rbind(results, new_row)
   
-  # Extract AIC
+  # extract AIC
   aic_value <- model$aic
   
-  # Extract pseudo-R2 (McFadden's R-squared)
+  # extract pseudo-R2 (McFadden's R-squared)
   pseudo_r2 <- 1 - (model$deviance / model$null.deviance)
   
-  # Store the model evaluation metrics
+  # store the model evaluation metrics
   metrics_row <- data.frame(year = year,
                             aic = aic_value,
                             pseudo_r2 = pseudo_r2,
@@ -431,7 +431,7 @@ for (year in years) {
   
   model_metrics <- rbind(model_metrics, metrics_row)
   
-  # Save predicted probabilities for strong, weak, lean with year information
+  # save predicted probabilities for strong, weak, lean with year information
   s <- rbind(s, mutate(ggpredict(model, terms = "strong", 
                                  condition = c(weak = 0, lean = 0)), year = year))
   w <- rbind(w, mutate(ggpredict(model, terms = "weak", 
@@ -443,8 +443,8 @@ for (year in years) {
 fuller_model_metrics <- data.frame()
 fuller_models<- data.frame()
 fuller_combo <- data.frame()
-fuller_model_metrics<-model_metrics #Save Final Model Metrics DF
-fuller_models<-results #Save Final Model Coefficients + SE DF
+fuller_model_metrics<-model_metrics # save final model metrics DF
+fuller_models<-results # save final model coefficients + SE DF
 fuller_combo <- left_join(fuller_models, fuller_model_metrics, by = "year")
 
 write.xlsx(fuller_combo, file = "Fuller Model Coefficients.xlsx", 
