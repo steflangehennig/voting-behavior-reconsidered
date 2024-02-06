@@ -14,7 +14,7 @@ library(openxlsx)
 anes <- read_dta("C:/Users/Carey/Dropbox/Research Projects/Shared Projects/Bartels Update/ANES Data/anes_timeseries_cdf_stata_20220916.dta")
 setwd("C:/Users/Carey/Dropbox/Research Projects/Shared Projects/Bartels Update/Electoral-Studies/revisions/New Excels")
 
-##Creates strong, weak, lean partisan dummy variable to replicate and extend Bartels (2000)
+# creates strong, weak, lean partisan dummy var to replicate and extend Bartels (2000)
 anes <- anes %>% 
   mutate(strong = case_when(
     VCF0301==7 ~ 1,
