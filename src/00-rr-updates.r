@@ -133,11 +133,11 @@ for (year in years) {
   
 }
 
-basic_model_metrics<-model_metrics #Save Final Model Metrics DF
-basic_models<-results #Save Final Model Coefficients + SE DF
+basic_model_metrics<-model_metrics # save final model metrics DF
+basic_models<-results # save final model coefficients + SE DF
 basic_combo <- left_join(basic_models, basic_model_metrics, by = "year")
 
-#Prepping Predicted Probabilities for Graphing
+## prepping predicted probabilities for graphing
 s<-as.data.frame(s)
 s<- s %>%  
   filter (group==1) 
@@ -161,12 +161,12 @@ combo_pp <- combo_pp %>% #
     x==1  ~ 'Rep')) %>% 
   filter(x=='Dem' | x=='Rep')
 
-combo_pp <- combo_pp %>% #Create new variable that is voting for in-party candidate
+combo_pp <- combo_pp %>% # create new variable that is voting for in-party candidate
   mutate(pred_2 = ifelse(x == "Rep", predicted, 1 - predicted)) %>% 
   mutate(ci_low = ifelse(x == "Rep", conf.low, pred_2-(predicted-conf.low))) %>% 
   mutate(ci_high = ifelse(x == "Rep", conf.high, pred_2+(predicted-conf.low)))
 
-# Reshape the data for Plotting
+# reshape the data for plotting
 results_long <- results[, c("year", "coeff_strong", "coeff_weak", "coeff_lean", "se_strong", "se_weak", "se_lean")]
 results_long <- results_long %>%
   gather(key = "variable", value = "value", -year) 
@@ -182,8 +182,8 @@ results_long <- results_long %>%
 graphing_t2 <- results_long %>%
   filter(measure != "intercept")
 
-####For Reviewer 1 comment
-# Plotting with Error Ribbons
+## for Reviewer 1 comment
+# Plotting with error ribbons
 ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   geom_line() +
   geom_ribbon(aes(ymin = lower_ci, ymax = upper_ci, fill = measure), alpha = 0.2) +
@@ -196,12 +196,12 @@ ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4))
 
-# Plotting with Error Bars
+# plotting with error bars
 ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   geom_line(linewidth=.7) +  geom_point(position = position_dodge(width = .75), 
                                         size=2) +
   geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
-                linewidth=.5,    # Thinner lines
+                linewidth=.5,    # thinner lines
                 width=.7,
                 position = position_dodge(width = .75)) +
   scale_color_manual(values = c("black", "lightcyan4", "red"), 
@@ -213,17 +213,17 @@ ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   theme_minimal(base_size = 13) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # Adjust position (0,1) means top-left
-    legend.justification = c(0, 1),  # Adjust justification
+  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
+    legend.justification = c(0, 1),  # adjust justification
     legend.direction = "horizontal")  +  
-  guides(linetype = FALSE)  # Remove linetype legend
+  guides(linetype = FALSE)  # remove linetype legend
     library(dplyr)
 
 ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   geom_line(linewidth=.7) +  geom_point(position = position_dodge(width = .75), 
                                         size=2) +
   geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
-                linewidth=.5,    # Thinner lines
+                linewidth=.5,    # thinner lines
                 width=.7,
                 position = position_dodge(width = .75)) +
   scale_color_manual(values = c("black", "lightcyan4", "red"), 
@@ -235,14 +235,14 @@ ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   theme_minimal(base_size = 13) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # Adjust position (0,1) means top-left
-         legend.justification = c(0, 1),  # Adjust justification
+  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
+         legend.justification = c(0, 1),  # adjust justification
          legend.direction = "horizontal")  +  
   facet_grid(measure~.) +
-  guides(linetype = FALSE)  # Remove linetype legend
+  guides(linetype = FALSE)  # remove linetype legend
 library(dplyr)
 
-####Saving Predicted Probabilites for Graphing 
+## saving Predicted Probabilites for Graphing 
 pp_basic<- ggplot(combo_pp, aes(x = year, y = pred_2, color = pid, group =pid)) +
   facet_grid(x ~.)+
   geom_line(linewidth = 0.9) +
