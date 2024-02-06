@@ -479,13 +479,13 @@ combo_pp_full <- combo_pp_full %>% #
 write.xlsx(combo_pp_full, file = "Fuller Model PP.xlsx", 
            rowNames = FALSE)
 
-combo_pp_full <- combo_pp_full %>% #Create new variable that is voting for in-party candidate
+combo_pp_full <- combo_pp_full %>% # create new variable that is voting for in-party candidate
   mutate(pred_2 = ifelse(x == "Rep", predicted, 1 - predicted)) %>% 
   mutate(ci_low = ifelse(x == "Rep", conf.low, pred_2-(predicted-conf.low))) %>% 
   mutate(ci_high = ifelse(x == "Rep", conf.high, pred_2+(predicted-conf.low)))
 
-#Graphing Predicted Probabilites from Fuller Model
-####Saving Predicted Probabilites for Graphing 
+## graphing predicted probabilities from fuller model
+# saving predicted probabilites for graphing 
 pp_fuller <- ggplot(combo_pp_full, aes(x = year, y = pred_2, 
                                        color = pid, linetype = pid, 
                                        group = pid)) +
@@ -500,23 +500,22 @@ pp_fuller <- ggplot(combo_pp_full, aes(x = year, y = pred_2,
        title = "") +
   geom_errorbar(aes(ymin = ci_low, ymax = ci_high),
                 linetype="solid",
-                linewidth = 0.5,    # Thinner lines
+                linewidth = 0.5,    # thinner lines
                 width = 1.5,
                 position = position_dodge(width = 0.6)) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme(legend.position = c(0.35, 0.57),        # Adjust position
-        legend.justification = c(0, 1),        # Adjust justification
+  theme(legend.position = c(0.35, 0.57),        # adjust position
+        legend.justification = c(0, 1),        # adjust justification
         legend.direction = "horizontal", 
         axis.title.y = element_text(size = 10)) +
-  scale_linetype_manual(values = c("solid", "solid", "solid"))   +  # Different linetypes
-  guides(linetype = FALSE)  # Remove linetype legend
+  scale_linetype_manual(values = c("solid", "solid", "solid"))   +  # different linetypes
+  guides(linetype = FALSE)  # remove linetype legend
 pp_fuller
 
 
-###Coefficient Plots for Fuller Model
-
-###Ideo Coefficient Graph
+## coefficient plots for fuller model
+# ideology coefficient graph
 results_long <- results[, c("year", "coeff_con", "coeff_lib", "coeff_noan", "se_con", "se_lib", "se_noan")]
 results_long <- results_long %>%
   gather(key = "variable", value = "value", -year) 
@@ -524,7 +523,7 @@ results_long <- results_long %>%
 results_long$variable[results_long$variable == "coeff_con"] <- "coeff_mod"
 results_long$variable[results_long$variable == "se_con"] <- "se_mod"
 
-# Reshape the data for Plotting
+# reshape the data for Plotting
 results_long <- results[, !(names(results) %in% "n")]
 results_long <- results[, c("year", "coeff_strong", "coeff_weak", "coeff_lean", "se_strong", "se_weak", "se_lean")]
 results_long <- results_long %>%
@@ -540,7 +539,7 @@ results_long <- results_long %>%
 graphing_t1 <- results_long %>%
   filter(measure != "intercept")
 
-# Plotting with Error Bars
+# plotting with error bars
 ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   geom_line(linewidth=.7) +  geom_point(position = position_dodge(width = .75), 
                                         size=2) +
