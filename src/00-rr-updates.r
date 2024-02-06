@@ -643,39 +643,39 @@ anes %>%
   count(rep_dem_house) %>%                          
   mutate(percent = scales::percent(n / sum(n))) 
 
-#Replicating Bartels and Extending for additional elections
-anes2 <- subset(anes, VCF0004 > 1948) #Removes unneeded replication year of 1948
-anes2 <- subset(anes2, (rep_dem_house == 1 | rep_dem_house==0)) #Removes unneeded replication year of 1948
-years <- unique(anes2$VCF0004) #Saves vector of remaining ANES survey years 
+# replicating Bartels & extending for additional elections
+anes2 <- subset(anes, VCF0004 > 1948) # removes unneeded replication year of 1948
+anes2 <- subset(anes2, (rep_dem_house == 1 | rep_dem_house==0)) # removes unneeded replication year of 1948
+years <- unique(anes2$VCF0004) # saves vector of remaining ANES survey years 
 
-#Replicating Bartels and Extending for additional elections
+# reeplicating Bartels & extending for additional elections
 years <- c(1952,	1956,	1960,	1964,	1968,	1972,	1976,	1980,	1984,	
-           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) #Years to include in analysis 
+           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) # years to include in analysis 
 
-# Initialize a data frame to store results
-# Create an empty data frame to store probit model results
+# initialize a data frame to store results
+# create an empty data frame to store probit model results
 results <- data.frame()
 
-# Initialize a data frame to store model evaluation metrics
+# initialize a data frame to store model evaluation metrics
 model_metrics <- data.frame()
 
-# Iterate over each year
+# iterate over each year
 for (year in years) {
-  # Subset the data for the specific year
+  # subset the data for the specific year
   year_data <- subset(anes2, VCF0004 == year)
   
-  # Run the weighted probit regression
+  # run the weighted probit regression
   model <- svyglm(rep_dem_house ~ strong + weak + lean, 
                   design = svydesign(ids = ~1, weights = ~VCF0009z, 
                                      data = year_data), 
                   family = binomial(link = "probit"))
   
-  # Extract the coefficients
+  # extract the coefficients
   coef_values <- coef(model)
   std_err <- sqrt(diag(vcov(model)))
   obs <- as.numeric(length(model$fitted.values))
   
-  # Create a new row for the coefficients data frame
+  # create a new row for the coefficients data frame
   new_row <- data.frame(year = year,
                         coeff_intercept = coef_values[1],
                         coeff_strong = coef_values[2],
@@ -688,16 +688,16 @@ for (year in years) {
                         n = obs,
                         stringsAsFactors = FALSE)
   
-  # Append the row to the coefficients data frame
+  # append the row to the coefficients data frame
   results <- rbind(results, new_row)
   
-  # Extract AIC
+  # extract AIC
   aic_value <- model$aic
   
-  # Extract pseudo-R2 (McFadden's R-squared)
+  # extract pseudo-R2 (McFadden's R-squared)
   pseudo_r2 <- 1 - (model$deviance / model$null.deviance)
   
-  # Store the model evaluation metrics
+  # store the model evaluation metrics
   metrics_row <- data.frame(year = year,
                             aic = aic_value,
                             pseudo_r2 = pseudo_r2,
@@ -707,19 +707,20 @@ for (year in years) {
 
 }
 
-basic_model_metrics<-model_metrics #Save Final Model Metrics DF
-basic_models<-results #Save Final Model Coefficients + SE DF
+basic_model_metrics<-model_metrics # save final model metrics DF
+basic_models<-results # save final model coefficients + SE DF
 basic_combo <- left_join(basic_models, basic_model_metrics, by = "year")
 
 write.xlsx(basic_combo, file = "congressional replication.xlsx", rowNames = FALSE)
 
-###With Ideology
+## with ideology
 anes3<-subset(anes, VCF0004>1971)
-years <- unique(anes3$VCF0004) #Saves vector of remaining ANES survey years 
+years <- unique(anes3$VCF0004) # saves vector of remaining ANES survey years 
 
 
-####Regression For-Loop Starts Here ### Congressional with Covariates
-# Initialize a data frame to store results
+## regression for-loop starts here 
+# congressional models with covariates
+# initialize a data frame to store results
 results <- data.frame()
 
 # Initialize a data frame to store model evaluation metrics
