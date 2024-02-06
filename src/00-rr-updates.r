@@ -14,7 +14,7 @@ library(openxlsx)
 anes <- read_dta("C:/Users/Carey/Dropbox/Research Projects/Shared Projects/Bartels Update/ANES Data/anes_timeseries_cdf_stata_20220916.dta")
 setwd("C:/Users/Carey/Dropbox/Research Projects/Shared Projects/Bartels Update/Electoral-Studies/revisions/New Excels")
 
-# creates strong, weak, lean partisan dummy var to replicate and extend Bartels (2000)
+## creates strong, weak, lean partisan dummy var to replicate and extend Bartels (2000)
 anes <- anes %>% 
   mutate(strong = case_when(
     VCF0301==7 ~ 1,
@@ -51,9 +51,10 @@ anes %>%
   count(rep_dem_pres) %>%                          
   mutate(percent = scales::percent(n / sum(n))) 
 
-#Recodes missing data to NAs for ideology
-###Note: Ideology asked beginning in 1972
-### Value of 0 still should still be kept missing. Value of 9 should be recoded per cumulative codebook
+## recodes missing data to NAs for ideology
+# note: ideology asked beginning in 1972
+# value of 0 still should still be kept missing; value of 9 should be recoded per cumulative codebook
+
 freq(anes$VCF0803)
 anes$VCF0803[anes$VCF0803 == 0] <- NA
 
@@ -65,35 +66,35 @@ anes <- anes %>%
     VCF0803 ==9 ~ 4, 
     VCF0803 <=0 ~ NA_real_))
 
-###Table 1 Model - With Coefficient Graphing with CIs
-#Replicating Bartels and Extending for additional elections
+## Table 1 model - with coefficient graphing with CIs
+# replicating Bartels and Extending for additional elections
 years <- c(1952,	1956,	1960,	1964,	1968,	1972,	1976,	1980,	1984,	
-           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) #Years to include in analysis 
+           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) # years to include in analysis 
 s <- w <- l <- data.frame()
-# Initialize a data frame to store results
-# Create an empty data frame to store probit model results
+# initialize a data frame to store results
+# create an empty data frame to store probit model results
 results <- data.frame()
 
-# Initialize a data frame to store model evaluation metrics
+# initialize a data frame to store model evaluation metrics
 model_metrics <- data.frame()
 
-# Iterate over each year
+# iterate over each year
 for (year in years) {
-  # Subset the data for the specific year
+  # subset the data for the specific year
   year_data <- subset(anes, VCF0004 == year)
   
-  # Run the weighted probit regression
+  # run the weighted probit regression
   model <- svyglm(rep_dem_pres ~ strong + weak + lean, 
                   design = svydesign(ids = ~1, weights = ~VCF0009z, 
                                      data = year_data), 
                   family = binomial(link = "probit"))
   
-  # Extract the coefficients
+  # extract the coefficients
   coef_values <- coef(model)
   std_err <- sqrt(diag(vcov(model)))
   obs <- as.numeric(length(model$fitted.values))
   
-  # Create a new row for the coefficients data frame
+  # create a new row for the coefficients data frame
   new_row <- data.frame(year = year,
                         coeff_intercept = coef_values[1],
                         coeff_strong = coef_values[2],
@@ -106,16 +107,16 @@ for (year in years) {
                         n = obs,
                         stringsAsFactors = FALSE)
   
-  # Append the row to the coefficients data frame
+  # append the row to the coefficients data frame
   results <- rbind(results, new_row)
   
-  # Extract AIC
+  # extract AIC
   aic_value <- model$aic
   
-  # Extract pseudo-R2 (McFadden's R-squared)
+  # extract pseudo-R2 (McFadden's R-squared)
   pseudo_r2 <- 1 - (model$deviance / model$null.deviance)
   
-  # Store the model evaluation metrics
+  # store the model evaluation metrics
   metrics_row <- data.frame(year = year,
                             aic = aic_value,
                             pseudo_r2 = pseudo_r2,
