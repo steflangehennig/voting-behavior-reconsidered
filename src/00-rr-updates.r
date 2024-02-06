@@ -544,7 +544,7 @@ ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   geom_line(linewidth=.7) +  geom_point(position = position_dodge(width = .75), 
                                         size=2) +
   geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
-                linewidth=.5,    # Thinner lines
+                linewidth=.5,    # thinner lines
                 width=.7,
                 position = position_dodge(width = .75)) +
   scale_color_manual(values = c("black", "lightcyan4", "red"), 
@@ -556,19 +556,19 @@ ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   theme_minimal(base_size = 15) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # Adjust position (0,1) means top-left
-         legend.justification = c(0, 1),  # Adjust justification
+  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
+         legend.justification = c(0, 1),  # adjust justification
          legend.direction = "horizontal")  +  
-  guides(linetype = none)  # Remove linetype legend
+  guides(linetype = none)  # remove linetype legend
 
-# Plotting Ideology with Error Bars
+# plotting ideology with error bars
 graphing_t2<-graphing_t1 %>% 
   filter(measure=="mod" | measure=="lib")
 ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   geom_line(linewidth=.9) +  geom_point(position = position_dodge(width = .95), 
                                         size=2.5) +
   geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
-                linewidth=.8,    # Thinner lines
+                linewidth=.8,    # thinner lines
                 width=.7,
                 position = position_dodge(width = .95)) +
   scale_color_manual(values = c("darkgrey", "black", "red"), 
@@ -580,17 +580,17 @@ ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   theme_minimal(base_size = 15) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # Adjust position (0,1) means top-left
-         legend.justification = c(0, 0),  # Adjust justification
+  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
+         legend.justification = c(0, 0),  # adjust justification
          legend.direction = "horizontal")  +  
-  guides(linetype = none)  # Remove linetype legend
+  guides(linetype = none)  # remove linetype legend
 
-# College Degree with Error Bars
+# college degree with error bars
 ggplot(fuller_models, aes(x = year, y = coeff_education)) +
   geom_line(linewidth=.9) +  geom_point(position = position_dodge(width = .95), 
                                         size=2.5) +
   geom_errorbar(aes(ymin=coeff_education-(1.96*se_education), ymax=coeff_education+(1.96*se_education)),
-                linewidth=.8,    # Thinner lines
+                linewidth=.8,    # thinner lines
                 width=.7,
                 position = position_dodge(width = .95)) +
   scale_color_manual(values = c("darkgrey", "black", "red"), 
@@ -602,16 +602,16 @@ ggplot(fuller_models, aes(x = year, y = coeff_education)) +
   theme_minimal(base_size = 15) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # Adjust position (0,1) means top-left
-         legend.justification = c(0, 0),  # Adjust justification
+  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
+         legend.justification = c(0, 0),  # adjust justification
          legend.direction = "horizontal")  +  
-  guides(linetype = none)  # Remove linetype legend
+  guides(linetype = none)  # remove linetype legend
 
 
 ggplot(graphing_t1, aes(x = year, y = coeff, shape = measure)) +
   geom_line(linewidth=.7) + geom_point(position = position_dodge(width = 0.75), size = 2) +
   geom_errorbar(aes(ymin = lower_ci, ymax = upper_ci),
-                linewidth = 0.5,    # Thinner lines
+                linewidth = 0.5,    # thinner lines
                 width = 0.7,
                 position = position_dodge(width = 0.75)) +
   scale_color_manual(values = c(4, 5, 7), 
@@ -623,16 +623,16 @@ ggplot(graphing_t1, aes(x = year, y = coeff, shape = measure)) +
   theme_minimal(base_size = 15) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4))+
-  theme(legend.position = c(0.3, 1.1),        # Adjust position
-        legend.justification = c(0, 1),        # Adjust justification
+  theme(legend.position = c(0.3, 1.1),        # adjust position
+        legend.justification = c(0, 1),        # adjust justification
         legend.direction = "horizontal", 
         axis.title.y = element_text(size = 10)) +
-  facet_grid(measure~. ) +  # Facet horizontally by "pid"
-  guides(linetype = FALSE)    # Remove linetype legend
-# Flip the coordinates# Remove linetype legend
+  facet_grid(measure~. ) +  # facet horizontally by "pid"
+  guides(linetype = FALSE)    # remove linetype legend
+# flip the coordinates; remove linetype legend
 
 
-####Congressional Updated Models
+## congressional updated models
 anes <- anes %>% 
   mutate(rep_dem_house = case_when(
     VCF0707==2 ~ 1,
