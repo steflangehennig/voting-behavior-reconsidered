@@ -242,7 +242,7 @@ ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   guides(linetype = FALSE)  # remove linetype legend
 library(dplyr)
 
-## saving Predicted Probabilites for Graphing 
+## saving predicted probabilites for graphing 
 pp_basic<- ggplot(combo_pp, aes(x = year, y = pred_2, color = pid, group =pid)) +
   facet_grid(x ~.)+
   geom_line(linewidth = 0.9) +
@@ -255,31 +255,33 @@ pp_basic<- ggplot(combo_pp, aes(x = year, y = pred_2, color = pid, group =pid)) 
        title = "") +
   geom_errorbar(aes(ymin = ci_low, ymax = ci_high),
                 linetype="solid",
-                linewidth = 0.5,    # Thinner lines
+                linewidth = 0.5,    # thinner lines
                 width = 1.5,
                 position = position_dodge(width = 0.6)) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme(legend.position = c(0.35, 0.57),        # Adjust position
-        legend.justification = c(0, 1),        # Adjust justification
+  theme(legend.position = c(0.35, 0.57),        # adjust position
+        legend.justification = c(0, 1),        # adjust justification
         legend.direction = "horizontal", 
         axis.title.y = element_text(size = 10)) +
-  scale_linetype_manual(values = c("solid", "solid", "solid"))   +  # Different linetypes
-  guides(linetype = FALSE)  # Remove linetype legend
+  scale_linetype_manual(values = c("solid", "solid", "solid"))   +  # different linetypes
+  guides(linetype = FALSE)  # remove linetype legend
 pp_basic
 
 
 
-####Expanded Model with new Ideology Approach
-###Adding Covariates to the basic Bartel's model 
-#Recodes missing data to NAs for ideology
+## expanded model with new ideology approach
+# adding covariates to the basic Bartel's model 
+# recodes missing data to NAs for ideology
+
 freq(anes$VCF0101)
-#Recodes missing data to NAs for age & education 
+
+# recodes missing data to NAs for age & education 
 anes$VCF0101[anes$VCF0101 == 0] <- NA
 anes$VCF0110[anes$VCF0110 == 0] <- NA
-anes$age<-anes$VCF0101  #Age 
-anes$education<-anes$VCF0110 #Education 
-freq(anes$VCF0803) #ideology
+anes$age<-anes$VCF0101  #age 
+anes$education<-anes$VCF0110 #education 
+freq(anes$VCF0803) # ideology
 anes <- anes %>%
   mutate(ideo4 = case_when(
     VCF0803 ==1 ~ 'Liberal',
@@ -297,7 +299,8 @@ anes$ideo4 <- relevel(anes$ideo4, ref = "Conservative")
 anes$ideo4 <- relevel(anes$ideo4, ref = "Moderate")
 
 freq(anes$ideo4)
-#Recodes race/ethnicity into dummy white or not 
+
+# recodes race/ethnicity into dummy white or not 
 anes <- anes %>% 
   mutate(white = case_when(
     VCF0106==1 ~ 1,
