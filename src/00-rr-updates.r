@@ -723,10 +723,10 @@ years <- unique(anes3$VCF0004) # saves vector of remaining ANES survey years
 # initialize a data frame to store results
 results <- data.frame()
 
-# Initialize a data frame to store model evaluation metrics
+# initialize a data frame to store model evaluation metrics
 model_metrics <- data.frame()
 
-# Create an empty data frame to store probit model results
+# create an empty data frame to store probit model results
 results <- data.frame(year = numeric(),
                       coeff_intercept = numeric(),
                       coeff_strong = numeric(),
@@ -755,24 +755,24 @@ results <- data.frame(year = numeric(),
                       n = numeric(),
                       stringsAsFactors = FALSE)
 
-# Iterate over each year
+# Iiterate over each year
 for (year in years) {
-  # Subset the data for the specific year
+  # subset the data for the specific year
   year_data <- subset(anes3, VCF0004 == year)
   
-  # Run the weighted probit regression
+  # run the weighted probit regression
   model <- svyglm(rep_dem_house ~ strong + weak + lean + age + education +
                     south + white + female + ideo4,
                   design = svydesign(ids = ~1, weights = ~VCF0009z, 
                                      data = year_data), 
                   family = binomial(link = "probit"))
   
-  # Extract the coefficients and standard errors
+  # extract the coefficients and standard errors
   coef_values <- coef(model)
   std_err <- sqrt(diag(vcov(model)))
   obs <- as.numeric(length(model$fitted.values))
   
-  # Create a new row for the coefficients data frame
+  # create a new row for the coefficients data frame
   new_row <- data.frame(
     year = year,
     intercept = coef_values[1],
@@ -803,16 +803,16 @@ for (year in years) {
     stringsAsFactors = FALSE
   )
   
-  # Append the row to the coefficients data frame
+  # append the row to the coefficients data frame
   results <- rbind(results, new_row)
   
-  # Extract AIC
+  # extract AIC
   aic_value <- model$aic
   
-  # Extract pseudo-R2 (McFadden's R-squared)
+  # extract pseudo-R2 (McFadden's R-squared)
   pseudo_r2 <- 1 - (model$deviance / model$null.deviance)
   
-  # Store the model evaluation metrics
+  # store the model evaluation metrics
   metrics_row <- data.frame(year = year,
                             aic = aic_value,
                             pseudo_r2 = pseudo_r2,
@@ -825,8 +825,8 @@ for (year in years) {
 fuller_model_metrics <- data.frame()
 fuller_models<- data.frame()
 fuller_combo <- data.frame()
-fuller_model_metrics<-model_metrics #Save Final Model Metrics DF
-fuller_models<-results #Save Final Model Coefficients + SE DF
+fuller_model_metrics<-model_metrics # save final model Metrics DF
+fuller_models<-results # save final model coefficients + SE DF
 fuller_combo <- left_join(fuller_models, fuller_model_metrics, by = "year")
 
 
