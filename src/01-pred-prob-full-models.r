@@ -118,7 +118,7 @@ for (year in years) {
 }
 
 fuller_model_metrics<-model_metrics # save final model metrics DF
-fuller_models<-results #Save Final Model Coefficients + SE DF
+fuller_models<-results # save final model coefficients + SE DF
 fuller_combo <- left_join(fuller_models, fuller_model_metrics, by = "year")
 
 s<-as.data.frame(s)
@@ -149,7 +149,7 @@ write.xlsx(combo_pp_full, file = "Fuller Model PP.xlsx",
 
 full_results<-results 
 
-combo_pp <- combo_pp %>% #Create new variable that is voting for in-party candidate
+combo_pp <- combo_pp %>% # create new variable that is voting for in-party candidate
   mutate(pred_2 = ifelse(x == "Rep", predicted, 1 - predicted)) %>% 
   mutate(ci_low = ifelse(x == "Rep", conf.low, pred_2-(predicted-conf.low))) %>% 
   mutate(ci_high = ifelse(x == "Rep", conf.high, pred_2+(predicted-conf.low)))
