@@ -46,7 +46,7 @@ anes <- anes %>%
   ))
 
 years <- c(1952,	1956,	1960,	1964,	1968,	1972,	1976,	1980,	1984,	
-           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) #Years to include in analysis 
+           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) # years to include in analysis 
 
 plot_data <- anes %>%
   filter(VCF0004 %in% years)
@@ -61,17 +61,17 @@ result <- plot_data %>%
   )
 
 ggplot(result, aes(x = VCF0004)) +
-  # Facet with mean_strong and mean_weak
+  # facet with mean_strong and mean_weak
   facet_grid(. ~ c("mean_strong", "mean_weak"), scales = "free_y") +
   
-  # Plot mean_strong and mean_weak
+  # plot mean_strong and mean_weak
   geom_bar(aes(y = mean_strong), stat = "identity", position = "dodge", fill = "blue", color = "black") +
   geom_bar(aes(y = mean_weak), stat = "identity", position = "dodge", fill = "red", color = "black") +
   
-  # Add labels and title
+  # add labels and title
   labs(x = "VCF0004", y = "Mean Value", title = "Vertical Facet Plot of Means") +
   
-  # Customize appearance
+  # customize appearance
   theme_minimal()
 
 long_result <- result %>%
@@ -94,7 +94,7 @@ plot_group_1 <- ggplot(long_result %>% filter(group == 1),
   theme(strip.text.x = element_blank(),
         strip.background = element_blank())
 
-# Create ggplot for group = 2
+# create ggplot for group = 2
 plot_group_2 <- ggplot(long_result %>% filter(group == 2), 
                        aes(x = VCF0004, y = mean_value, color = variable, group = variable)) +
   geom_line(size=1.5) + geom_point(size=3) + 
@@ -107,7 +107,7 @@ plot_group_2 <- ggplot(long_result %>% filter(group == 2),
   theme(strip.text.x = element_blank(),
         strip.background = element_blank())
 
-# Combine the two plots
+# combine the two plots
 
 combined_plot <- (plot_group_1 / plot_group_2) +
   plot_annotation(title = "Distribution of Party ID - 1952 to 2020", 
