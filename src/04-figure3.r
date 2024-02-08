@@ -44,7 +44,7 @@ ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
 ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   geom_line() + geom_point()+
   geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
-                linewidth=.3,    # Thinner lines
+                linewidth=.3,    # thinner lines
                 width=.2)  + 
   scale_color_manual(values = c("black", "darkgrey", "red"), 
                      name = "PID Strength",
@@ -56,12 +56,12 @@ ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   theme_minimal() +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # Adjust position (0,1) means top-left
-         legend.justification = c(0, 1),  # Adjust justification
-         legend.direction = "horizontal")  # Make the legend horizontal 
+  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
+         legend.justification = c(0, 1),  # adjust justification
+         legend.direction = "horizontal")  # make the legend horizontal 
 library(dplyr)
 
-####Saving Predicted Probabilites for Graphing 
+## saving predicted probabilites for graphing 
 pp_basic<- ggplot(combo_pp, aes(x = year, y = pred_2, color = pid, group =pid)) +
   facet_grid(x ~.)+
   geom_line(linewidth=.7) + geom_point() +   
@@ -72,11 +72,11 @@ pp_basic<- ggplot(combo_pp, aes(x = year, y = pred_2, color = pid, group =pid)) 
   labs(x = "Year", y = "Predicted Probability", 
        title = "Probability Voting for In-Party Presidential Candidate") +
   geom_errorbar(aes(ymin=ci_low, ymax=ci_high),
-                linewidth=.3,    # Thinner lines
+                linewidth=.3,    # thinner lines
                 width=.2) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(.5, .60),  # Adjust position (0,1) means top-left
-         legend.justification = c(0, 1),  # Adjust justification
+  theme( legend.position = c(.5, .60),  # adjust position (0,1) means top-left
+         legend.justification = c(0, 1),  # adjust justification
          legend.direction = "horizontal")  
 pp_basic
