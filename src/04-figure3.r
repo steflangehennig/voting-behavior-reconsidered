@@ -12,7 +12,7 @@ library(openxlsx)
 library(patchwork)
 
 
-# Reshape the data for Plotting: these data come from the 'full results' in file 01-pred-prob-full-model
+# reshape data for plotting: data come from the 'full results' in file 01-pred-prob-full-model
 results_long <- results %>%
   gather(key = "variable", value = "value", -year) 
 
@@ -27,7 +27,7 @@ graphing_t1 <- results_long %>%
   filter(measure != "intercept")
 
 
-# Plotting with Error Ribbons
+# plotting with error ribbons
 ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   geom_line() +
   geom_ribbon(aes(ymin = lower_ci, ymax = upper_ci, fill = measure), alpha = 0.2) +
@@ -40,7 +40,7 @@ ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4))
 
-# Plotting with Error Bars
+# plotting with error bars
 ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   geom_line() + geom_point()+
   geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
