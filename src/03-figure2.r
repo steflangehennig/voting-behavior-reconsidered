@@ -10,7 +10,7 @@ library(ggExtra)
 full <- read_csv(here::here("data/pres-weighted.csv")) # old data
 full <- read_csv(here::here("data/pres-weighted-rr.csv")) # R&R data
 
-### with legend ###
+### includes legend ###
 
 p2 <- ggplot() + 
   geom_line(data=full, aes(x=year, y=pres_no_control, color='pres_no_control', linetype='pres_no_control'),size=.82)+
