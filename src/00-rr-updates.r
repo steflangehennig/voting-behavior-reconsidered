@@ -200,7 +200,7 @@ ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   geom_line(linewidth=.7) +  geom_point(position = position_dodge(width = .75), 
                                         size=2) +
   geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
-                linewidth=.5,    # thinner lines
+                linewidth=.5,    
                 width=.7,
                 position = position_dodge(width = .75)) +
   scale_color_manual(values = c("black", "lightcyan4", "red"), 
@@ -212,17 +212,16 @@ ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   theme_minimal(base_size = 13) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
-    legend.justification = c(0, 1),  # adjust justification
+  theme( legend.position = c(0, 1),  
+    legend.justification = c(0, 1),  
     legend.direction = "horizontal")  +  
-  guides(linetype = FALSE)  # remove linetype legend
-    library(dplyr)
+  guides(linetype = FALSE)  
 
 ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   geom_line(linewidth=.7) +  geom_point(position = position_dodge(width = .75), 
                                         size=2) +
   geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
-                linewidth=.5,    # thinner lines
+                linewidth=.5,    
                 width=.7,
                 position = position_dodge(width = .75)) +
   scale_color_manual(values = c("black", "lightcyan4", "red"), 
@@ -234,12 +233,12 @@ ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   theme_minimal(base_size = 13) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
-         legend.justification = c(0, 1),  # adjust justification
+  theme( legend.position = c(0, 1),  
+         legend.justification = c(0, 1),  
          legend.direction = "horizontal")  +  
   facet_grid(measure~.) +
-  guides(linetype = FALSE)  # remove linetype legend
-library(dplyr)
+  guides(linetype = FALSE) 
+
 
 ## saving predicted probabilites for graphing 
 pp_basic<- ggplot(combo_pp, aes(x = year, y = pred_2, color = pid, group =pid)) +
@@ -254,23 +253,23 @@ pp_basic<- ggplot(combo_pp, aes(x = year, y = pred_2, color = pid, group =pid)) 
        title = "") +
   geom_errorbar(aes(ymin = ci_low, ymax = ci_high),
                 linetype="solid",
-                linewidth = 0.5,    # thinner lines
+                linewidth = 0.5,    
                 width = 1.5,
                 position = position_dodge(width = 0.6)) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme(legend.position = c(0.35, 0.57),        # adjust position
-        legend.justification = c(0, 1),        # adjust justification
+  theme(legend.position = c(0.35, 0.57),       
+        legend.justification = c(0, 1),        
         legend.direction = "horizontal", 
         axis.title.y = element_text(size = 10)) +
-  scale_linetype_manual(values = c("solid", "solid", "solid"))   +  # different linetypes
-  guides(linetype = FALSE)  # remove linetype legend
+  scale_linetype_manual(values = c("solid", "solid", "solid"))   +  
+  guides(linetype = FALSE) 
 pp_basic
 
 
 
 ## expanded model with new ideology approach
-# adding covariates to the basic Bartel's model 
+# adding covariates to the basic Bartels's model 
 # recodes missing data to NAs for ideology
 
 freq(anes$VCF0101)
