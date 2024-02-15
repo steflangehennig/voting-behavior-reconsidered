@@ -2,6 +2,7 @@
 # Partisanship and Voting Behavior 
 # Reconsidered in the Age of Polarization
 # Accepted at Electoral Studies 10 Feb 2024
+# Model specification code
 ###########################################
 
 library(descr)
