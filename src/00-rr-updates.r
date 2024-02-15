@@ -642,13 +642,13 @@ anes %>%
   mutate(percent = scales::percent(n / sum(n))) 
 
 # replicating Bartels & extending for additional elections
-anes2 <- subset(anes, VCF0004 > 1948) # removes unneeded replication year of 1948
-anes2 <- subset(anes2, (rep_dem_house == 1 | rep_dem_house==0)) # removes unneeded replication year of 1948
-years <- unique(anes2$VCF0004) # saves vector of remaining ANES survey years 
+anes2 <- subset(anes, VCF0004 > 1948) 
+anes2 <- subset(anes2, (rep_dem_house == 1 | rep_dem_house==0)) 
+years <- unique(anes2$VCF0004)
 
 # reeplicating Bartels & extending for additional elections
 years <- c(1952,	1956,	1960,	1964,	1968,	1972,	1976,	1980,	1984,	
-           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) # years to include in analysis 
+           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) 
 
 # initialize a data frame to store results
 # create an empty data frame to store probit model results
