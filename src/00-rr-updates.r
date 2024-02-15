@@ -1,8 +1,8 @@
-#######################
-# Code updates for R&R
-#######################
+#########################
+# Code for bivariate &
+# fully specified models
+#########################
 
-# Updates for the R&R 
 library(descr)
 library(tidyverse)
 library(ggplot2)
@@ -11,8 +11,9 @@ library(haven)
 library(MASS)
 library(survey)
 library(openxlsx)
-anes <- read_dta("C:/Users/Carey/Dropbox/Research Projects/Shared Projects/Bartels Update/ANES Data/anes_timeseries_cdf_stata_20220916.dta")
-setwd("C:/Users/Carey/Dropbox/Research Projects/Shared Projects/Bartels Update/Electoral-Studies/revisions/New Excels")
+
+# read in ANES data
+anes <- read_dta("~/ANES Data/anes_timeseries_cdf_stata_20220916.dta")
 
 ## creates strong, weak, lean partisan dummy var to replicate and extend Bartels (2000)
 anes <- anes %>% 
