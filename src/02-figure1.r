@@ -1,6 +1,9 @@
-#########################################################
-# Plots for distribution of partisan strength, 1952-2020
-#########################################################
+############################################
+# Partisanship and Voting Behavior 
+# Reconsidered in the Age of Polarization
+# Accepted at Electoral Studies 10 Feb 2024
+# Plot code for dist. of PID strength
+############################################
 
 library(tidyverse)
 library(ggplot2)
