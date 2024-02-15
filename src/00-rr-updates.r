@@ -362,7 +362,7 @@ s <- w <- l <- data.frame()
 
 ## new models with ideology - not asked prior to 1972 
 years <- c(1972,	1976,	1980,	1984,	
-           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) # years to include in analysis 
+           1988,	1992,	1996, 2000, 2004, 2008, 2012, 2016, 2020) 
 
 # iterate over each year
 for (year in years) {
@@ -467,7 +467,7 @@ l$pid<-"lean"
 
 combo_pp_full <- rbind(s, w, l)
 
-combo_pp_full <- combo_pp_full %>% # 
+combo_pp_full <- combo_pp_full %>% 
   mutate(x = case_when(
     x==-1 ~ 'Dem',
     x==0  ~ 'Ind',
@@ -498,17 +498,17 @@ pp_fuller <- ggplot(combo_pp_full, aes(x = year, y = pred_2,
        title = "") +
   geom_errorbar(aes(ymin = ci_low, ymax = ci_high),
                 linetype="solid",
-                linewidth = 0.5,    # thinner lines
+                linewidth = 0.5,  
                 width = 1.5,
                 position = position_dodge(width = 0.6)) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme(legend.position = c(0.35, 0.57),        # adjust position
-        legend.justification = c(0, 1),        # adjust justification
+  theme(legend.position = c(0.35, 0.57),       
+        legend.justification = c(0, 1),      
         legend.direction = "horizontal", 
         axis.title.y = element_text(size = 10)) +
-  scale_linetype_manual(values = c("solid", "solid", "solid"))   +  # different linetypes
-  guides(linetype = FALSE)  # remove linetype legend
+  scale_linetype_manual(values = c("solid", "solid", "solid"))   +  
+  guides(linetype = FALSE)  
 pp_fuller
 
 
@@ -542,7 +542,7 @@ ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   geom_line(linewidth=.7) +  geom_point(position = position_dodge(width = .75), 
                                         size=2) +
   geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
-                linewidth=.5,    # thinner lines
+                linewidth=.5, 
                 width=.7,
                 position = position_dodge(width = .75)) +
   scale_color_manual(values = c("black", "lightcyan4", "red"), 
@@ -554,10 +554,10 @@ ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   theme_minimal(base_size = 15) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
-         legend.justification = c(0, 1),  # adjust justification
+  theme( legend.position = c(0, 1),  
+         legend.justification = c(0, 1),  
          legend.direction = "horizontal")  +  
-  guides(linetype = none)  # remove linetype legend
+  guides(linetype = none)  
 
 # plotting ideology with error bars
 graphing_t2<-graphing_t1 %>% 
@@ -566,7 +566,7 @@ ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   geom_line(linewidth=.9) +  geom_point(position = position_dodge(width = .95), 
                                         size=2.5) +
   geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
-                linewidth=.8,    # thinner lines
+                linewidth=.8,  
                 width=.7,
                 position = position_dodge(width = .95)) +
   scale_color_manual(values = c("darkgrey", "black", "red"), 
@@ -578,17 +578,17 @@ ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   theme_minimal(base_size = 15) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
-         legend.justification = c(0, 0),  # adjust justification
+  theme( legend.position = c(0, 1),  
+         legend.justification = c(0, 0),  
          legend.direction = "horizontal")  +  
-  guides(linetype = none)  # remove linetype legend
+  guides(linetype = none)  
 
 # college degree with error bars
 ggplot(fuller_models, aes(x = year, y = coeff_education)) +
   geom_line(linewidth=.9) +  geom_point(position = position_dodge(width = .95), 
                                         size=2.5) +
   geom_errorbar(aes(ymin=coeff_education-(1.96*se_education), ymax=coeff_education+(1.96*se_education)),
-                linewidth=.8,    # thinner lines
+                linewidth=.8,   
                 width=.7,
                 position = position_dodge(width = .95)) +
   scale_color_manual(values = c("darkgrey", "black", "red"), 
@@ -600,16 +600,16 @@ ggplot(fuller_models, aes(x = year, y = coeff_education)) +
   theme_minimal(base_size = 15) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
-         legend.justification = c(0, 0),  # adjust justification
+  theme( legend.position = c(0, 1),  
+         legend.justification = c(0, 0),  
          legend.direction = "horizontal")  +  
-  guides(linetype = none)  # remove linetype legend
+  guides(linetype = none)  
 
 
 ggplot(graphing_t1, aes(x = year, y = coeff, shape = measure)) +
   geom_line(linewidth=.7) + geom_point(position = position_dodge(width = 0.75), size = 2) +
   geom_errorbar(aes(ymin = lower_ci, ymax = upper_ci),
-                linewidth = 0.5,    # thinner lines
+                linewidth = 0.5,    
                 width = 0.7,
                 position = position_dodge(width = 0.75)) +
   scale_color_manual(values = c(4, 5, 7), 
@@ -621,12 +621,12 @@ ggplot(graphing_t1, aes(x = year, y = coeff, shape = measure)) +
   theme_minimal(base_size = 15) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4))+
-  theme(legend.position = c(0.3, 1.1),        # adjust position
-        legend.justification = c(0, 1),        # adjust justification
+  theme(legend.position = c(0.3, 1.1),      
+        legend.justification = c(0, 1),        
         legend.direction = "horizontal", 
         axis.title.y = element_text(size = 10)) +
   facet_grid(measure~. ) +  # facet horizontally by "pid"
-  guides(linetype = FALSE)    # remove linetype legend
+  guides(linetype = FALSE)   
 # flip the coordinates; remove linetype legend
 
 
