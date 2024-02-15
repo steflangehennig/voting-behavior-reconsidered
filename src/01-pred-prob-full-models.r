@@ -5,13 +5,14 @@
 # Models/predicted probabilities code
 ###########################################
 
+
 # initialize a data frame to store results
 results <- data.frame()
 
 # initialize a data frame to store model evaluation metrics
 model_metrics <- data.frame()
 
-# create an empty data frame to store probit model results
+# create empty data frame to store probit model results
 results <- data.frame(year = numeric(),
                       coeff_intercept = numeric(),
                       coeff_strong = numeric(),

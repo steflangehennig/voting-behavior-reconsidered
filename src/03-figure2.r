@@ -10,7 +10,6 @@ library(ggplot2)
 library(readr)
 library(ggExtra) 
 
-
 ### includes legend ###
 
 p2 <- ggplot() + 
