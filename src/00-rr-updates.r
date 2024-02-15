@@ -182,8 +182,7 @@ results_long <- results_long %>%
 graphing_t2 <- results_long %>%
   filter(measure != "intercept")
 
-## for Reviewer 1 comment
-# Plotting with error ribbons
+# plotting with error ribbons
 ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
   geom_line() +
   geom_ribbon(aes(ymin = lower_ci, ymax = upper_ci, fill = measure), alpha = 0.2) +
