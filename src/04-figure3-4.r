@@ -83,3 +83,27 @@ pp_basic<- ggplot(combo_pp, aes(x = year, y = pred_2, color = pid, group =pid)) 
          legend.justification = c(0, 1), 
          legend.direction = "horizontal")  
 pp_basic
+
+# plotting ideology with error bars
+graphing_t2<-graphing_t1 %>% 
+  filter(measure=="mod" | measure=="lib")
+ggplot(graphing_t2, aes(x = year, y = coeff, color = measure)) +
+  geom_line(linewidth=.9) +  geom_point(position = position_dodge(width = .95), 
+                                        size=2.5) +
+  geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
+                linewidth=.8,  
+                width=.7,
+                position = position_dodge(width = .95)) +
+  scale_color_manual(values = c("darkgrey", "black", "red"), 
+                     name = "Political Ideology: Relative to Conservatives",
+                     labels = c("Liberal", "Moderate", "No Opinion")) +
+  labs(title = "",
+       x = "Year",
+       y = "Probit Coefficient") +
+  theme_minimal(base_size = 15) +
+  scale_x_continuous(breaks = seq(1952, 2020, by = 4),
+                     minor_breaks = seq(1952, 2020, by = 4)) +
+  theme( legend.position = c(0, 1),  
+         legend.justification = c(0, 0),  
+         legend.direction = "horizontal")  +  
+  guides(linetype = none)  
