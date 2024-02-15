@@ -1,6 +1,9 @@
-#####################################
-# Plots for predicted probabilities 
-#####################################
+############################################
+# Partisanship and Voting Behavior 
+# Reconsidered in the Age of Polarization
+# Accepted at Electoral Studies 10 Feb 2024
+# Plot code for predicted probabilities
+############################################
 
 library(tidyverse)
 library(ggplot2)
@@ -44,7 +47,7 @@ ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
 ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   geom_line() + geom_point()+
   geom_errorbar(aes(ymin=lower_ci, ymax=upper_ci),
-                linewidth=.3,    # thinner lines
+                linewidth=.3,    
                 width=.2)  + 
   scale_color_manual(values = c("black", "darkgrey", "red"), 
                      name = "PID Strength",
@@ -56,9 +59,9 @@ ggplot(graphing_t1, aes(x = year, y = coeff, color = measure)) +
   theme_minimal() +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(0, 1),  # adjust position (0,1) means top-left
-         legend.justification = c(0, 1),  # adjust justification
-         legend.direction = "horizontal")  # make the legend horizontal 
+  theme( legend.position = c(0, 1), 
+         legend.justification = c(0, 1),  
+         legend.direction = "horizontal")  
 library(dplyr)
 
 ## saving predicted probabilites for graphing 
@@ -76,7 +79,7 @@ pp_basic<- ggplot(combo_pp, aes(x = year, y = pred_2, color = pid, group =pid)) 
                 width=.2) +
   scale_x_continuous(breaks = seq(1952, 2020, by = 4),
                      minor_breaks = seq(1952, 2020, by = 4)) +
-  theme( legend.position = c(.5, .60),  # adjust position (0,1) means top-left
-         legend.justification = c(0, 1),  # adjust justification
+  theme( legend.position = c(.5, .60),  
+         legend.justification = c(0, 1), 
          legend.direction = "horizontal")  
 pp_basic

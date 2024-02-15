@@ -1,14 +1,15 @@
-######################################
-# Plots for bivariate and full models
-######################################
+############################################
+# Partisanship and Voting Behavior 
+# Reconsidered in the Age of Polarization
+# Accepted at Electoral Studies 10 Feb 2024
+# Plot code for weighted Probit coefficients
+############################################
+
 
 library(ggplot2)
 library(readr)
 library(ggExtra) 
 
-
-full <- read_csv(here::here("data/pres-weighted.csv")) # old data
-full <- read_csv(here::here("data/pres-weighted-rr.csv")) # R&R data
 
 ### includes legend ###
 
